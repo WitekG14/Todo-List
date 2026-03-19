@@ -1,6 +1,7 @@
 import TodoItem from "@/components/todo-item";
+import { TodoItemT } from "@/lib/types";
 
-const testInitialItems = [
+const testInitialItems: TodoItemT[] = [
   {
     name: "toothbrush",
     checked: false,
@@ -8,7 +9,6 @@ const testInitialItems = [
   },
   {
     name: "phone",
-    checked: false,
     id: 2,
   },
   {
