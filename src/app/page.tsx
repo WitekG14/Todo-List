@@ -1,3 +1,23 @@
+import TodoItem from "@/components/todo-item";
+
+const testInitialItems = [
+  {
+    name: "toothbrush",
+    checked: false,
+    id: 1,
+  },
+  {
+    name: "phone",
+    checked: false,
+    id: 2,
+  },
+  {
+    name: "good mood",
+    checked: true,
+    id: 3,
+  },
+];
+
 export default function Home() {
   return (
     <main className="flex h-full w-full flex-col items-center justify-center gap-y-8">
@@ -6,18 +26,9 @@ export default function Home() {
       </section>
       <section className="">
         <ul className="border-t border-t-zinc-300">
-          <li className="flex w-full items-center justify-center gap-5 border-b border-b-zinc-300 p-3">
-            <input type="checkbox" />
-            <p>Apples</p>
-          </li>
-          <li className="flex w-full items-center justify-center gap-5 border-b border-b-zinc-300 p-3">
-            <input type="checkbox" />
-            <p>Apples</p>
-          </li>
-          <li className="flex w-full items-center justify-center gap-5 border-b border-b-zinc-300 p-3">
-            <input type="checkbox" />
-            <p>Apples</p>
-          </li>
+          {testInitialItems.map((item) => (
+            <TodoItem item={item} key={item.id} />
+          ))}
         </ul>
       </section>
     </main>
