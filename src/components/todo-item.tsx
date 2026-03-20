@@ -8,7 +8,7 @@ function TodoItem({
   onToggleItem: () => void;
 }) {
   return (
-    <li className="flex w-full items-center gap-5 border-b border-b-zinc-300 p-3">
+    <li className="flex w-full items-center gap-5 border-b border-b-zinc-300 p-3 transition hover:bg-zinc-50">
       <input
         type="checkbox"
         checked={item.checked || false}
