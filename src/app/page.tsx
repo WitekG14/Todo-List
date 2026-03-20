@@ -1,6 +1,7 @@
 "use client";
 
 import TodoItem from "@/components/todo-item";
+import { Checkbox } from "@/components/ui/checkbox";
 import { TodoItemT } from "@/lib/types";
 import { useState } from "react";
 
@@ -46,6 +47,14 @@ export default function Home() {
               key={item.id}
             />
           ))}
+          <li className="flex w-full items-center gap-5 border-b border-b-zinc-300 p-3 transition hover:bg-zinc-50">
+            <Checkbox checked={false} />
+            <input
+              type="text"
+              className="max-h-6 border-b border-b-zinc-200 transition-all outline-none hover:border-b-zinc-400 focus:border-b-zinc-400 focus:ring-0 focus:ring-offset-0"
+              placeholder="Add a new item..."
+            />
+          </li>
         </ul>
       </section>
     </main>
