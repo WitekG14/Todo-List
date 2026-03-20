@@ -1,5 +1,8 @@
+"use client";
+
 import TodoItem from "@/components/todo-item";
 import { TodoItemT } from "@/lib/types";
+import { useState } from "react";
 
 const testInitialItems: TodoItemT[] = [
   {
@@ -19,6 +22,16 @@ const testInitialItems: TodoItemT[] = [
 ];
 
 export default function Home() {
+  const [items, setItems] = useState(testInitialItems);
+
+  const handleToggleItem = (id: number) => {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, checked: !item.checked } : item,
+      ),
+    );
+  };
+
   return (
     <main className="flex h-full w-full flex-col items-center justify-center gap-y-8">
       <section>
@@ -26,8 +39,12 @@ export default function Home() {
       </section>
       <section className="">
         <ul className="border-t border-t-zinc-300">
-          {testInitialItems.map((item) => (
-            <TodoItem item={item} key={item.id} />
+          {items.map((item) => (
+            <TodoItem
+              item={item}
+              onToggleItem={() => handleToggleItem(item.id)}
+              key={item.id}
+            />
           ))}
         </ul>
       </section>
