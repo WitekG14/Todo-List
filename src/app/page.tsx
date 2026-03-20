@@ -36,6 +36,10 @@ export default function Home() {
     setInputValue("");
   };
 
+  const handleDeleteItem = (id: number) => {
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
   const handleToggleItem = (id: number) => {
     setItems((prev) =>
       prev.map((item) =>
@@ -55,6 +59,7 @@ export default function Home() {
             <TodoItem
               item={item}
               onToggleItem={() => handleToggleItem(item.id)}
+              onDeleteItem={() => handleDeleteItem(item.id)}
               key={item.id}
             />
           ))}
