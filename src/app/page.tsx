@@ -3,9 +3,9 @@
 import TodoItem from "@/components/todo-item";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TodoItemT } from "@/lib/types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const testInitialItems: TodoItemT[] = [
+/* const testInitialItems: TodoItemT[] = [
   {
     name: "toothbrush",
     checked: false,
@@ -20,15 +20,27 @@ const testInitialItems: TodoItemT[] = [
     checked: true,
     id: 3,
   },
-];
+]; */
 
 export default function Home() {
-  const [items, setItems] = useState(testInitialItems);
+  const [items, setItems] = useState<TodoItemT[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("items");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
   const [inputValue, setInputValue] = useState("");
   const [editSessionId, setIsEditSession] = useState(false);
   const itemNameInputRef = useRef<HTMLInputElement>(null);
 
   const isEditSession = !!editSessionId;
+
+  useEffect(() => {
+    if (items.length > 0) {
+      localStorage.setItem("items", JSON.stringify(items));
+    }
+  }, [items]);
 
   const handleAddItem = (name: string) => {
     const newItem = {
@@ -72,6 +84,12 @@ export default function Home() {
         <h1 className="text-4xl font-bold tracking-wider">Todo List</h1>
       </section>
       <section>
+        {items.length === 0 && (
+          <section className="mb-3 flex flex-col items-center justify-center">
+            <p>You don{"'"}t have any items.</p>
+            <p className="-mt-1 text-black/50">Try adding some below.</p>
+          </section>
+        )}
         <ul className="border-t border-t-zinc-300">
           {items.map((item) => (
             <TodoItem
