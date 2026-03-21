@@ -3,7 +3,7 @@
 import TodoItem from "@/components/todo-item";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TodoItemT } from "@/lib/types";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const testInitialItems: TodoItemT[] = [
   {
@@ -25,6 +25,10 @@ const testInitialItems: TodoItemT[] = [
 export default function Home() {
   const [items, setItems] = useState(testInitialItems);
   const [inputValue, setInputValue] = useState("");
+  const [editSessionId, setIsEditSession] = useState(false);
+  const itemNameInputRef = useRef<HTMLInputElement>(null);
+
+  const isEditSession = !!editSessionId;
 
   const handleAddItem = (name: string) => {
     const newItem = {
@@ -48,18 +52,33 @@ export default function Home() {
     );
   };
 
+  const handleEditItem = (id: number) => {
+    setIsEditSession(true);
+
+    const editItem = items.find((item) => item.id === id);
+    if (!editItem) return;
+
+    setInputValue(editItem.name);
+    handleDeleteItem(id);
+
+    const itemNameInputCurrent = itemNameInputRef.current;
+    if (!itemNameInputCurrent) return;
+    itemNameInputCurrent.focus();
+  };
+
   return (
     <main className="flex h-full w-full flex-col items-center justify-center gap-y-8">
       <section>
         <h1 className="text-4xl font-bold tracking-wider">Todo List</h1>
       </section>
-      <section className="">
+      <section>
         <ul className="border-t border-t-zinc-300">
           {items.map((item) => (
             <TodoItem
               item={item}
               onToggleItem={() => handleToggleItem(item.id)}
               onDeleteItem={() => handleDeleteItem(item.id)}
+              onEditItem={() => handleEditItem(item.id)}
               key={item.id}
             />
           ))}
@@ -68,10 +87,13 @@ export default function Home() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
+                if (isEditSession) {
+                }
                 handleAddItem(inputValue);
               }}
             >
               <input
+                ref={itemNameInputRef}
                 type="text"
                 value={inputValue}
                 onChange={(e) => {
