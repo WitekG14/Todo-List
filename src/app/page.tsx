@@ -1,7 +1,8 @@
 "use client";
 
-import TodoItem from "@/components/todo-item";
-import { Checkbox } from "@/components/ui/checkbox";
+import H1 from "@/components/h1";
+import HeadingSection from "@/components/heading-section";
+import ItemsSection from "@/components/items-section";
 import { TodoItemT } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";
 
@@ -80,51 +81,20 @@ export default function Home() {
 
   return (
     <main className="flex h-full w-full flex-col items-center justify-center gap-y-8">
-      <section>
-        <h1 className="text-4xl font-bold tracking-wider">Todo List</h1>
-      </section>
-      <section>
-        {items.length === 0 && (
-          <section className="mb-3 flex flex-col items-center justify-center">
-            <p>You don{"'"}t have any items.</p>
-            <p className="-mt-1 text-black/50">Try adding some below.</p>
-          </section>
-        )}
-        <ul className="border-t border-t-zinc-300">
-          {items.map((item) => (
-            <TodoItem
-              item={item}
-              onToggleItem={() => handleToggleItem(item.id)}
-              onDeleteItem={() => handleDeleteItem(item.id)}
-              onEditItem={() => handleEditItem(item.id)}
-              key={item.id}
-            />
-          ))}
-          <li className="flex w-full items-center gap-5 border-b border-b-zinc-300 p-3 transition hover:bg-zinc-50">
-            <Checkbox checked={false} />
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (isEditSession) {
-                }
-                handleAddItem(inputValue);
-              }}
-            >
-              <input
-                ref={itemNameInputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => {
-                  e.preventDefault();
-                  setInputValue(e.target.value);
-                }}
-                className="max-h-6 border-b border-b-zinc-200 transition-all outline-none hover:border-b-zinc-400 focus:border-b-zinc-400 focus:ring-0 focus:ring-offset-0"
-                placeholder="Add a new item..."
-              />
-            </form>
-          </li>
-        </ul>
-      </section>
+      <HeadingSection>
+        <H1>Todo List</H1>
+      </HeadingSection>
+      <ItemsSection
+        items={items}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        isEditSession={isEditSession}
+        handleAddItem={handleAddItem}
+        handleToggleItem={handleToggleItem}
+        handleEditItem={handleEditItem}
+        handleDeleteItem={handleDeleteItem}
+        itemNameInputRef={itemNameInputRef}
+      />
     </main>
   );
 }
