@@ -1,6 +1,9 @@
 import { TodoItemT } from "@/lib/types";
 import EmptyList from "./empty-list";
-import TodoList from "./todo-list";
+
+import dynamic from "next/dynamic";
+
+const TodoList = dynamic(() => import("./todo-list"), { ssr: false });
 
 function ItemsSection({
   items,
@@ -24,7 +27,7 @@ function ItemsSection({
   itemNameInputRef: React.Ref<HTMLInputElement>;
 }) {
   return (
-    <section>
+    <section className="min-h-50">
       {items.length === 0 && <EmptyList />}
       <TodoList
         items={items}

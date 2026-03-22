@@ -2,26 +2,14 @@
 
 import H1 from "@/components/h1";
 import HeadingSection from "@/components/heading-section";
-import ItemsSection from "@/components/items-section";
 import { TodoItemT } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";
 
-/* const testInitialItems: TodoItemT[] = [
-  {
-    name: "toothbrush",
-    checked: false,
-    id: 1,
-  },
-  {
-    name: "phone",
-    id: 2,
-  },
-  {
-    name: "good mood",
-    checked: true,
-    id: 3,
-  },
-]; */
+import dynamic from "next/dynamic";
+
+const ItemsSection = dynamic(() => import("@/components/items-section"), {
+  ssr: false,
+});
 
 export default function Home() {
   const [items, setItems] = useState<TodoItemT[]>(() => {
@@ -80,21 +68,23 @@ export default function Home() {
   };
 
   return (
-    <main className="flex h-full w-full flex-col items-center justify-center gap-y-8">
-      <HeadingSection>
-        <H1>Todo List</H1>
-      </HeadingSection>
-      <ItemsSection
-        items={items}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        isEditSession={isEditSession}
-        handleAddItem={handleAddItem}
-        handleToggleItem={handleToggleItem}
-        handleEditItem={handleEditItem}
-        handleDeleteItem={handleDeleteItem}
-        itemNameInputRef={itemNameInputRef}
-      />
+    <main className="flex h-full w-full flex-col justify-center">
+      <div className="flex min-h-70 flex-col items-center justify-between gap-y-8">
+        <HeadingSection>
+          <H1>Todo List</H1>
+        </HeadingSection>
+        <ItemsSection
+          items={items}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          isEditSession={isEditSession}
+          handleAddItem={handleAddItem}
+          handleToggleItem={handleToggleItem}
+          handleEditItem={handleEditItem}
+          handleDeleteItem={handleDeleteItem}
+          itemNameInputRef={itemNameInputRef}
+        />
+      </div>
     </main>
   );
 }
